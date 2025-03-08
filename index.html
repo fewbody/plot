@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PhysRevPlotter - 物理学期刊绘图工具</title>
+    <title>PhysRevPlotter - Scientific Plotting Tool for Physics Journals</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -69,7 +69,7 @@
             border: 2px solid #333;
         }
         
-        /* 高质量学术期刊配色方案 */
+        /* High-quality journal color scheme */
         .prc-blue { background-color: #0C4B8E; }
         .prc-red { background-color: #BF2026; }
         .prc-green { background-color: #007046; }
@@ -123,118 +123,118 @@
             padding: 10px;
             margin-bottom: 10px;
         }
+        
+        .footer {
+            margin-top: 30px;
+            padding: 20px 0;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            color: #666;
+        }
+        
+        .line-edit-panel {
+            border-left: 4px solid #1f3d7a;
+            padding-left: 15px;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
-    <!-- 顶部标题 -->
+    <!-- Header -->
     <header class="header text-center">
         <h1>PhysRevPlotter</h1>
-        <p class="lead">专为物理学期刊论文设计的科学绘图工具</p>
+        <p class="lead">Scientific plotting tool designed for physics journal papers</p>
     </header>
 
     <div class="container">
-        <!-- 数据上传区 -->
+        <!-- Data Upload Area -->
         <div class="main-container">
-            <h4>数据上传</h4>
+            <h4>Data Upload</h4>
             <div class="mb-3">
-                <label for="dataFile" class="form-label">选择数据文件</label>
+                <label for="dataFile" class="form-label">Select data file</label>
                 <input class="form-control" type="file" id="dataFile" accept=".csv,.txt,.dat">
-                <div class="form-text">支持CSV、TXT和DAT格式的数据文件</div>
+                <div class="form-text">Supports CSV, TXT, and DAT file formats</div>
             </div>
             
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label class="form-label">数据分隔符</label>
+                    <label class="form-label">Data Delimiter</label>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="delimiter" id="delimiterComma" value=",">
-                        <label class="form-check-label" for="delimiterComma">逗号 (,)</label>
+                        <input class="form-check-input" type="radio" name="delimiter" id="delimiterComma" value="," checked>
+                        <label class="form-check-label" for="delimiterComma">Comma (,)</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="delimiter" id="delimiterSpace" value=" ">
-                        <label class="form-check-label" for="delimiterSpace">空格</label>
+                        <label class="form-check-label" for="delimiterSpace">Space</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="delimiter" id="delimiterTab" value="\t">
-                        <label class="form-check-label" for="delimiterTab">制表符 (Tab)</label>
+                        <label class="form-check-label" for="delimiterTab">Tab</label>
                     </div>
                 </div>
                 
                 <div class="col-md-6">
-                    <label class="form-label">预览</label>
+                    <label class="form-label">Preview</label>
                     <textarea class="form-control" id="dataPreview" rows="4" readonly></textarea>
                 </div>
             </div>
             
-            <button class="btn btn-primary" id="loadDataBtn">加载数据</button>
+            <button class="btn btn-primary" id="loadDataBtn">Load Data</button>
             <div class="loading" id="loading">
                 <div class="spinner-border spinner-border-sm text-primary" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
-                <span class="ms-2">处理数据中...</span>
+                <span class="ms-2">Processing data...</span>
             </div>
             <div id="status" class="status-message"></div>
         </div>
 
         <div class="row">
-            <!-- 绘图区 -->
+            <!-- Plot Area -->
             <div class="col-lg-8">
                 <div class="main-container">
-                    <h4>绘图区</h4>
+                    <h4>Plot Area</h4>
                     <div id="plotContainer" class="plot-container"></div>
                     
                     <div class="row">
                         <div class="col-md-12 text-end">
-                            <button class="btn btn-sm btn-outline-secondary me-2" id="resetZoomBtn">重置缩放</button>
-                            <button class="btn btn-sm btn-outline-primary me-2" id="saveAsPNGBtn">导出PNG</button>
-                            <button class="btn btn-sm btn-outline-primary" id="saveAsSVGBtn">导出SVG</button>
+                            <button class="btn btn-sm btn-outline-secondary me-2" id="resetZoomBtn">Reset Zoom</button>
+                            <button class="btn btn-sm btn-outline-primary me-2" id="saveAsPNGBtn">Export PNG</button>
+                            <button class="btn btn-sm btn-outline-primary" id="saveAsSVGBtn">Export SVG</button>
                         </div>
+                    </div>
+                </div>
+                
+                <!-- Dataset Listing -->
+                <div class="main-container">
+                    <h4>Datasets</h4>
+                    <div id="datasetsList">
+                        <p class="text-muted">No data loaded yet</p>
                     </div>
                 </div>
             </div>
             
-            <!-- 数据集和样式控制 -->
+            <!-- Plot Controls -->
             <div class="col-lg-4">
-                <!-- 数据集 -->
+                <!-- Line Editing Panel -->
                 <div class="main-container">
-                    <h4>数据集</h4>
-                    <div id="datasetsList">
-                        <p class="text-muted">尚未加载数据</p>
-                    </div>
-                </div>
-                
-                <!-- 图表控制 -->
-                <div class="main-container">
-                    <h4>图表控制</h4>
-                    
-                    <div class="control-panel">
-                        <h5>基本设置</h5>
+                    <h4>Dataset Styling</h4>
+                    <div class="line-edit-panel">
                         <div class="mb-3">
-                            <label for="plotTitle" class="form-label">图表标题</label>
-                            <input type="text" class="form-control" id="plotTitle" placeholder="输入图表标题">
+                            <label for="datasetSelector" class="form-label">Select Dataset to Style</label>
+                            <select class="form-select" id="datasetSelector">
+                                <option value="">-- No datasets plotted --</option>
+                            </select>
                         </div>
+                        
                         <div class="mb-3">
-                            <label for="xAxisLabel" class="form-label">X轴标签</label>
-                            <input type="text" class="form-control" id="xAxisLabel" placeholder="X轴标签">
+                            <label for="datasetLabel" class="form-label">Dataset Label</label>
+                            <input type="text" class="form-control" id="datasetLabel" placeholder="Enter dataset label">
+                            <small class="form-text text-muted">This label will appear in the legend</small>
                         </div>
+                        
                         <div class="mb-3">
-                            <label for="yAxisLabel" class="form-label">Y轴标签</label>
-                            <input type="text" class="form-control" id="yAxisLabel" placeholder="Y轴标签">
-                        </div>
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" id="showLegend" checked>
-                            <label class="form-check-label" for="showLegend">显示图例</label>
-                        </div>
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" id="showBorder" checked>
-                            <label class="form-check-label" for="showBorder">显示四边框线</label>
-                        </div>
-                        <button id="applyBasicSettingsBtn" class="btn btn-sm btn-primary w-100">应用基本设置</button>
-                    </div>
-                    
-                    <div class="control-panel">
-                        <h5>样式设置</h5>
-                        <div class="mb-3">
-                            <label class="form-label">颜色选择</label>
+                            <label class="form-label">Color Selection</label>
                             <div class="d-flex flex-wrap" id="colorSelector">
                                 <span class="color-sample prc-blue" data-color="#0C4B8E" style="cursor:pointer; margin-bottom:5px;"></span>
                                 <span class="color-sample prc-red" data-color="#BF2026" style="cursor:pointer; margin-bottom:5px;"></span>
@@ -246,23 +246,29 @@
                                 <span class="color-sample prc-dark-blue" data-color="#1A5276" style="cursor:pointer; margin-bottom:5px;"></span>
                             </div>
                             <div class="mt-2">
-                                <div class="form-text">当前选择的颜色: <span id="currentColor" style="font-weight:bold;">#0C4B8E</span></div>
+                                <div class="form-text">Selected color: <span id="currentColor" style="font-weight:bold;">#0C4B8E</span></div>
                                 <input type="color" id="customColor" class="form-control form-control-sm mt-1" value="#0C4B8E">
-                                <div class="form-text">也可以自定义颜色</div>
+                                <div class="form-text">Or use custom color</div>
                             </div>
                         </div>
                         
                         <div class="row">
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="markerSize" class="form-label">点大小</label>
-                                    <input type="range" class="form-range" min="2" max="12" step="1" value="7" id="markerSize">
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="mb-3">
-                                    <label for="lineWidth" class="form-label">线宽</label>
+                                    <label for="lineWidth" class="form-label">Line Width</label>
                                     <input type="range" class="form-range" min="1" max="5" step="0.5" value="2" id="lineWidth">
+                                    <div class="text-center"><span id="lineWidthValue">2</span></div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <label for="lineStyle" class="form-label">Line Style</label>
+                                    <select class="form-select" id="lineStyle">
+                                        <option value="solid">Solid</option>
+                                        <option value="dash">Dashed</option>
+                                        <option value="dot">Dotted</option>
+                                        <option value="dashdot">Dash-Dot</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -270,59 +276,158 @@
                         <div class="row">
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="lineStyle" class="form-label">线型</label>
-                                    <select class="form-select" id="lineStyle">
-                                        <option value="solid">实线</option>
-                                        <option value="dash">虚线</option>
-                                        <option value="dot">点线</option>
-                                        <option value="dashdot">点划线</option>
-                                    </select>
+                                    <label for="markerSize" class="form-label">Marker Size</label>
+                                    <input type="range" class="form-range" min="2" max="12" step="1" value="7" id="markerSize">
+                                    <div class="text-center"><span id="markerSizeValue">7</span></div>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="markerStyle" class="form-label">点型</label>
+                                    <label for="markerStyle" class="form-label">Marker Style</label>
                                     <select class="form-select" id="markerStyle">
-                                        <option value="circle">圆形</option>
-                                        <option value="square">方形</option>
-                                        <option value="diamond">菱形</option>
-                                        <option value="triangle-up">三角形</option>
-                                        <option value="star">星形</option>
+                                        <option value="circle">Circle</option>
+                                        <option value="square">Square</option>
+                                        <option value="diamond">Diamond</option>
+                                        <option value="triangle-up">Triangle</option>
+                                        <option value="star">Star</option>
                                     </select>
                                 </div>
                             </div>
+                        </div>
+                        
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="autoApply" checked>
+                            <label class="form-check-label" for="autoApply">Auto-apply changes</label>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary" id="applyStylesBtn">Apply Style to Selected Dataset</button>
+                            <button class="btn btn-outline-danger" id="removeDatasetBtn">Remove Selected Dataset</button>
                         </div>
                     </div>
-                    
-                    <button class="btn btn-primary w-100" id="applySettingsBtn">应用设置</button>
+                </div>
+                
+                <!-- Basic Chart Controls -->
+                <div class="main-container">
+                    <h4>Chart Settings</h4>
+                    <div class="control-panel">
+                        <div class="mb-3">
+                            <label for="plotTitle" class="form-label">Chart Title</label>
+                            <input type="text" class="form-control" id="plotTitle" placeholder="Enter chart title">
+                        </div>
+                        <div class="mb-3">
+                            <label for="xAxisLabel" class="form-label">X-Axis Label</label>
+                            <input type="text" class="form-control" id="xAxisLabel" placeholder="X-axis label">
+                        </div>
+                        <div class="mb-3">
+                            <label for="yAxisLabel" class="form-label">Y-Axis Label</label>
+                            <input type="text" class="form-control" id="yAxisLabel" placeholder="Y-axis label">
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="showLegend" checked>
+                            <label class="form-check-label" for="showLegend">Show Legend</label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="showBorder" checked>
+                            <label class="form-check-label" for="showBorder">Show Border on All Sides</label>
+                        </div>
+                        <button id="applyBasicSettingsBtn" class="btn btn-primary w-100">Apply Chart Settings</button>
+                    </div>
                 </div>
             </div>
         </div>
+        
+        <!-- Footer with attribution -->
+        <div class="footer">
+            <p>Designed and made by <a href="http://jinlei.fewbody.com/">Jin Lei</a>. Supported by the National Natural Science Foundation of China (Grants No. 12475132). If you find any bugs or errors related to this website, please <a href="mailto:jinl@tongji.edu.cn">email me</a>.</p>
+        </div>
     </div>
 
-    <!-- 必要的JavaScript库 -->
+    <!-- Required JavaScript libraries -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/plotly.js@2.20.0/dist/plotly.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
 
     <script>
-        // 全局变量
+        // Global variables
         const app = {
-            datasets: {}, // 存储数据集
-            currentData: [], // 当前绘图数据
+            datasets: {}, // Store raw datasets
+            plotData: {}, // Store plotted datasets and their styles
+            activePlot: [], // Currently displayed traces on the plot
+            nextColorIndex: 0, // Index for assigning colors to new datasets
+            selectedDataset: null, // Currently selected dataset for styling
             colors: [
-                '#0C4B8E', // 蓝色
-                '#BF2026', // 红色
-                '#007046', // 绿色
-                '#7D3C98', // 紫色
-                '#E74C3C', // 橙色
-                '#138D75', // 蓝绿色
-                '#873600', // 棕色
-                '#1A5276'  // 深蓝色
+                '#0C4B8E', // Blue
+                '#BF2026', // Red
+                '#007046', // Green
+                '#7D3C98', // Purple
+                '#E74C3C', // Orange
+                '#138D75', // Teal
+                '#873600', // Brown
+                '#1A5276'  // Dark Blue
             ]
         };
         
-        // 显示状态消息
+        // Add event listeners for style controls
+        function addStyleControlListeners() {
+            // Add event listeners for real-time preview (without immediate apply)
+            document.getElementById('markerSize').addEventListener('input', function() {
+                document.getElementById('markerSizeValue').textContent = this.value;
+            });
+            
+            document.getElementById('lineWidth').addEventListener('input', function() {
+                document.getElementById('lineWidthValue').textContent = this.value;
+            });
+            
+            document.getElementById('customColor').addEventListener('input', function() {
+                const color = this.value;
+                document.getElementById('currentColor').textContent = color;
+                
+                // Deselect all color samples
+                document.querySelectorAll('#colorSelector .color-sample').forEach(s => {
+                    s.classList.remove('active');
+                });
+            });
+            
+            // Apply styles when controls change
+            document.getElementById('lineStyle').addEventListener('change', function() {
+                if (document.getElementById('autoApply').checked) {
+                    applyStylesImmediately();
+                }
+            });
+            
+            document.getElementById('markerStyle').addEventListener('change', function() {
+                if (document.getElementById('autoApply').checked) {
+                    applyStylesImmediately();
+                }
+            });
+            
+            document.getElementById('markerSize').addEventListener('change', function() {
+                if (document.getElementById('autoApply').checked) {
+                    applyStylesImmediately();
+                }
+            });
+            
+            document.getElementById('lineWidth').addEventListener('change', function() {
+                if (document.getElementById('autoApply').checked) {
+                    applyStylesImmediately();
+                }
+            });
+            
+            document.getElementById('customColor').addEventListener('change', function() {
+                if (document.getElementById('autoApply').checked) {
+                    applyStylesImmediately();
+                }
+            });
+            
+            document.getElementById('datasetLabel').addEventListener('change', function() {
+                if (document.getElementById('autoApply').checked) {
+                    applyStylesImmediately();
+                }
+            });
+        }
+        
+        // Display status message
         function showStatus(message, isError = false) {
             const statusElement = document.getElementById('status');
             statusElement.textContent = message;
@@ -334,12 +439,12 @@
             }
         }
         
-        // 显示/隐藏加载指示器
+        // Show/hide loading indicator
         function toggleLoading(show) {
             document.getElementById('loading').style.display = show ? 'flex' : 'none';
         }
         
-        // 初始化图表
+        // Initialize plot
         function initPlot() {
             const plotContainer = document.getElementById('plotContainer');
             
@@ -357,8 +462,8 @@
                     title: '',
                     showgrid: true,
                     zeroline: true,
-                    showline: true, // 显示x轴线
-                    mirror: 'all',  // 顶部也显示边框
+                    showline: true, // Show x-axis line
+                    mirror: 'all',  // Show borders on all sides
                     linecolor: '#333',
                     gridcolor: '#ddd',
                     zerolinecolor: '#333',
@@ -369,8 +474,8 @@
                     title: '',
                     showgrid: true,
                     zeroline: true,
-                    showline: true, // 显示y轴线
-                    mirror: 'all',  // 右侧也显示边框
+                    showline: true, // Show y-axis line
+                    mirror: 'all',  // Show borders on all sides
                     linecolor: '#333',
                     gridcolor: '#ddd',
                     zerolinecolor: '#333',
@@ -401,26 +506,22 @@
             Plotly.newPlot(plotContainer, [], layout, config);
         }
         
-        // 加载数据
+        // Load data
         function loadData() {
             const fileInput = document.getElementById('dataFile');
             const file = fileInput.files[0];
             
             if (!file) {
-                showStatus('请先选择一个数据文件', true);
+                showStatus('Please select a data file first', true);
                 return;
             }
             
-            // 获取所选分隔符
+            // Get selected delimiter
             let delimiter = null;
             const delimiterRadios = document.getElementsByName('delimiter');
             for (let i = 0; i < delimiterRadios.length; i++) {
                 if (delimiterRadios[i].checked) {
-                    if (delimiterRadios[i].value === 'auto') {
-                        delimiter = null; // PapaParse会自动检测
-                    } else {
-                        delimiter = delimiterRadios[i].value;
-                    }
+                    delimiter = delimiterRadios[i].value;
                     break;
                 }
             }
@@ -434,11 +535,11 @@
                 try {
                     const content = e.target.result;
                     
-                    // 显示数据预览
+                    // Show data preview
                     document.getElementById('dataPreview').value = content.substring(0, 500) + 
                         (content.length > 500 ? '...' : '');
                     
-                    // 解析数据
+                    // Parse data
                     const parseOptions = {
                         header: true,
                         skipEmptyLines: true,
@@ -446,69 +547,82 @@
                         delimiter: delimiter,
                         complete: function(results) {
                             if (results.errors && results.errors.length > 0) {
-                                console.warn('数据解析警告:', results.errors);
+                                console.warn('Data parsing warnings:', results.errors);
+                                
+                                // Notify user of warnings
+                                if (results.errors.length > 0) {
+                                    const warningMsg = `Parsed with ${results.errors.length} warning(s). Data may be incomplete.`;
+                                    showStatus(warningMsg, false);
+                                }
                             }
                             
                             if (!results.data || results.data.length === 0) {
-                                showStatus('解析后没有有效数据行', true);
+                                showStatus('No valid data rows after parsing', true);
                                 toggleLoading(false);
                                 return;
                             }
                             
-                            // 数据预处理 - 清理列名
-                            const cleanData = results.data.map(row => {
+                            // Data preprocessing - clean column names
+                            const cleanData = results.data.filter(row => Object.keys(row).length > 0).map(row => {
                                 const cleanRow = {};
                                 for (const key in row) {
-                                    if (key.trim() === '') continue; // 跳过空列名
+                                    if (key === null || key === undefined || key.trim() === '') continue; // Skip empty column names
                                     cleanRow[key.trim()] = row[key];
                                 }
                                 return cleanRow;
                             });
                             
-                            // 添加到数据集
+                            if (cleanData.length === 0) {
+                                showStatus('No valid data rows after cleaning', true);
+                                toggleLoading(false);
+                                return;
+                            }
+                            
+                            // Add to datasets
                             const datasetName = file.name;
                             app.datasets[datasetName] = cleanData;
                             
-                            // 更新UI
+                            // Update UI
                             updateDatasetsList();
                             
-                            // 自动绘制数据
-                            plotData(datasetName);
+                            // Auto-plot data
+                            addDatasetToPlot(datasetName);
                             
-                            showStatus(`成功加载文件: ${file.name}，共 ${cleanData.length} 行数据`);
+                            showStatus(`Successfully loaded file: ${file.name}, with ${cleanData.length} rows of data`);
                             toggleLoading(false);
                         },
                         error: function(error) {
-                            console.error('解析错误:', error);
-                            showStatus('数据解析错误: ' + error.message, true);
+                            console.error('Parsing error:', error);
+                            showStatus('Data parsing error: ' + error.message, true);
                             toggleLoading(false);
                         }
                     };
                     
+                    // Use PapaParse to parse the data
                     Papa.parse(content, parseOptions);
                     
                 } catch (error) {
-                    console.error('文件读取错误:', error);
-                    showStatus('文件读取错误: ' + error.message, true);
+                    console.error('File reading error:', error);
+                    showStatus('File reading error: ' + error.message, true);
                     toggleLoading(false);
                 }
             };
             
             reader.onerror = function() {
-                showStatus('文件读取错误', true);
+                showStatus('File reading error', true);
                 toggleLoading(false);
             };
             
             reader.readAsText(file);
         }
         
-        // 更新数据集列表
+        // Update datasets list
         function updateDatasetsList() {
             const container = document.getElementById('datasetsList');
             container.innerHTML = '';
             
             if (Object.keys(app.datasets).length === 0) {
-                container.innerHTML = '<p class="text-muted">尚未加载数据</p>';
+                container.innerHTML = '<p class="text-muted">No data loaded yet</p>';
                 return;
             }
             
@@ -528,16 +642,16 @@
                 
                 const plotBtn = document.createElement('button');
                 plotBtn.className = 'btn btn-sm btn-outline-primary me-1';
-                plotBtn.textContent = '绘图';
+                plotBtn.textContent = 'Plot';
                 plotBtn.addEventListener('click', function() {
-                    plotData(name);
+                    addDatasetToPlot(name);
                 });
                 
                 const removeBtn = document.createElement('button');
                 removeBtn.className = 'btn btn-sm btn-outline-danger';
-                removeBtn.textContent = '移除';
+                removeBtn.textContent = 'Remove';
                 removeBtn.addEventListener('click', function() {
-                    if (confirm(`确定要移除数据集 "${name}"?`)) {
+                    if (confirm(`Are you sure you want to remove dataset "${name}"?`)) {
                         delete app.datasets[name];
                         updateDatasetsList();
                     }
@@ -552,11 +666,11 @@
                 const info = document.createElement('div');
                 info.className = 'small text-muted';
                 
-                // 获取列名信息
+                // Get column info
                 const columnsInfo = dataset.length > 0 ? 
-                    `列: ${Object.keys(dataset[0]).join(', ')}` : '';
+                    `Columns: ${Object.keys(dataset[0]).join(', ')}` : '';
                 
-                info.textContent = `${dataset.length} 行数据 | ${columnsInfo}`;
+                info.textContent = `${dataset.length} rows | ${columnsInfo}`;
                 
                 datasetItem.appendChild(header);
                 datasetItem.appendChild(info);
@@ -565,34 +679,34 @@
             }
         }
         
-        // 绘制数据
-        function plotData(name) {
+        // Add a dataset to the plot
+        function addDatasetToPlot(name) {
             try {
                 if (!app.datasets[name]) {
-                    showStatus(`找不到数据集: ${name}`, true);
+                    showStatus(`Dataset not found: ${name}`, true);
                     return;
                 }
                 
                 const data = app.datasets[name];
                 
                 if (data.length === 0) {
-                    showStatus('数据集为空', true);
+                    showStatus('Dataset is empty', true);
                     return;
                 }
                 
-                // 获取列名
+                // Get column names
                 const columns = Object.keys(data[0]);
                 
                 if (columns.length < 2) {
-                    showStatus('数据必须至少包含两列', true);
+                    showStatus('Data must contain at least two columns', true);
                     return;
                 }
                 
-                // 使用前两列作为x和y
+                // Use first two columns as x and y
                 const xColumn = columns[0];
                 const yColumn = columns[1];
                 
-                // 提取有效的数据点
+                // Extract valid data points
                 const validData = data.filter(row => {
                     return row[xColumn] !== null && row[xColumn] !== undefined && 
                            row[yColumn] !== null && row[yColumn] !== undefined &&
@@ -600,99 +714,181 @@
                 });
                 
                 if (validData.length === 0) {
-                    showStatus('没有有效的数据点', true);
+                    showStatus('No valid data points found', true);
                     return;
                 }
                 
                 const x = validData.map(row => row[xColumn]);
                 const y = validData.map(row => row[yColumn]);
                 
-                // 获取当前样式设置
-                const markerSize = parseInt(document.getElementById('markerSize').value);
-                const lineWidth = parseFloat(document.getElementById('lineWidth').value);
-                const lineStyle = document.getElementById('lineStyle').value;
-                const markerStyle = document.getElementById('markerStyle').value;
-                const currentColor = document.getElementById('currentColor').textContent;
+                // Choose a color from the color list
+                const colorIndex = app.nextColorIndex % app.colors.length;
+                app.nextColorIndex++;
+                const selectedColor = app.colors[colorIndex];
                 
-                // 创建图表数据
+                // Create trace settings
+                const displayName = `${name} (${yColumn} vs ${xColumn})`;
+                
+                // Create plot data
                 const trace = {
                     x: x,
                     y: y,
                     mode: 'lines+markers',
                     type: 'scatter',
-                    name: name,
+                    name: displayName,
                     line: {
-                        color: currentColor,
-                        width: lineWidth,
-                        dash: lineStyle === 'solid' ? 'solid' : 
-                              lineStyle === 'dash' ? 'dash' :
-                              lineStyle === 'dot' ? 'dot' : 'dashdot'
+                        color: selectedColor,
+                        width: 2,
+                        dash: 'solid'
                     },
                     marker: {
-                        color: currentColor,
-                        size: markerSize,
-                        symbol: markerStyle
+                        color: selectedColor,
+                        size: 7,
+                        symbol: 'circle'
                     }
                 };
                 
-                // 保存当前数据
-                app.currentData = [trace];
+                // Store the trace settings for this dataset
+                app.plotData[name] = {
+                    trace: trace,
+                    columns: {
+                        x: xColumn,
+                        y: yColumn
+                    },
+                    style: {
+                        color: selectedColor,
+                        lineWidth: 2,
+                        lineStyle: 'solid',
+                        markerSize: 7,
+                        markerStyle: 'circle'
+                    }
+                };
                 
-                // 获取当前图表对象
+                // Update active plot data
+                updatePlot();
+                
+                // Select this dataset in the style selector
+                updateDatasetSelector();
+                selectDataset(name);
+                
+                // Set title and axis labels if this is the first dataset
+                if (Object.keys(app.plotData).length === 1) {
+                    // Set default title and axis labels
+                    document.getElementById('plotTitle').value = 'Data Visualization';
+                    document.getElementById('xAxisLabel').value = xColumn;
+                    document.getElementById('yAxisLabel').value = yColumn;
+                    
+                    // Apply settings
+                    applyTitleAndAxisSettings();
+                }
+                
+                showStatus(`Added dataset: ${name} to plot`);
+            } catch (error) {
+                console.error('Adding dataset error:', error);
+                showStatus('Error adding dataset: ' + error.message, true);
+            }
+        }
+        
+        // Remove a dataset from the plot
+        function removeDatasetFromPlot(name) {
+            if (app.plotData[name]) {
+                delete app.plotData[name];
+                
+                // Update the plot
+                updatePlot();
+                
+                // Update the dataset selector
+                updateDatasetSelector();
+                
+                showStatus(`Removed dataset: ${name} from plot`);
+            }
+        }
+        
+        // Update the whole plot with current data
+        function updatePlot() {
+            try {
+                // Create array of traces from plotData
+                const traces = Object.values(app.plotData).map(item => item.trace);
+                app.activePlot = traces;
+                
+                // If there are no traces, create an empty plot
+                if (traces.length === 0) {
+                    Plotly.react('plotContainer', [], {
+                        title: 'No Data',
+                        xaxis: {
+                            title: '',
+                            showgrid: true,
+                            zeroline: true,
+                            showline: true,
+                            mirror: 'all',
+                            linecolor: '#333',
+                            linewidth: 1
+                        },
+                        yaxis: {
+                            title: '',
+                            showgrid: true,
+                            zeroline: true,
+                            showline: true,
+                            mirror: 'all',
+                            linecolor: '#333',
+                            linewidth: 1
+                        }
+                    });
+                    return;
+                }
+                
+                // Get current layout to preserve settings
+                const plotDiv = document.getElementById('plotContainer');
+                let currentLayout = plotDiv._fullLayout || {};
+                
+                // Create default layout if none exists
                 const layout = {
-                    title: `${name} 数据可视化`,
+                    title: currentLayout.title?.text || 'Data Visualization',
                     xaxis: {
-                        title: xColumn,
+                        title: currentLayout.xaxis?.title?.text || '',
                         showgrid: true,
                         zeroline: true,
                         showline: true,
-                        mirror: 'all',  // 上下都显示边框
+                        mirror: 'all',
                         linecolor: '#333',
                         linewidth: 1
                     },
                     yaxis: {
-                        title: yColumn,
+                        title: currentLayout.yaxis?.title?.text || '',
                         showgrid: true,
                         zeroline: true,
                         showline: true,
-                        mirror: 'all',  // 左右都显示边框
+                        mirror: 'all',
                         linecolor: '#333',
                         linewidth: 1
-                    }
+                    },
+                    showlegend: true
                 };
                 
-                // 更新表单字段
-                document.getElementById('plotTitle').value = layout.title;
-                document.getElementById('xAxisLabel').value = layout.xaxis.title;
-                document.getElementById('yAxisLabel').value = layout.yaxis.title;
-                
-                // 更新图表
-                Plotly.react('plotContainer', app.currentData, layout);
-                
-                // 显示当前样式设置的反馈
-                showStatus(`已绘制数据集: ${name} (颜色: ${currentColor}, 线宽: ${lineWidth}, 点大小: ${markerSize})`);
+                // Update plot
+                Plotly.react('plotContainer', traces, layout);
             } catch (error) {
-                console.error('绘图错误:', error);
-                showStatus('绘图错误: ' + error.message, true);
+                console.error('Plot update error:', error);
+                showStatus('Error updating plot: ' + error.message, true);
             }
         }
         
-        // 应用标题和轴标签设置
+        // Apply title and axis settings
         function applyTitleAndAxisSettings() {
             try {
-                if (!app.currentData || app.currentData.length === 0) {
-                    showStatus('当前没有可用的数据', true);
+                if (Object.keys(app.plotData).length === 0) {
+                    showStatus('No data available for plotting', true);
                     return;
                 }
                 
-                // 获取设置
+                // Get settings
                 const title = document.getElementById('plotTitle').value;
                 const xAxisLabel = document.getElementById('xAxisLabel').value;
                 const yAxisLabel = document.getElementById('yAxisLabel').value;
                 const showLegend = document.getElementById('showLegend').checked;
                 const showBorder = document.getElementById('showBorder').checked;
                 
-                // 更新布局
+                // Update layout
                 const layout = {
                     title: title,
                     showlegend: showLegend,
@@ -708,33 +904,33 @@
                     }
                 };
                 
-                // 更新图表
+                // Update plot
                 Plotly.relayout('plotContainer', layout);
                 
-                showStatus('已应用标题和轴标签设置');
+                showStatus('Applied title and axis settings');
             } catch (error) {
-                console.error('应用标题和轴标签设置错误:', error);
-                showStatus('应用设置错误: ' + error.message, true);
+                console.error('Error applying title and axis settings:', error);
+                showStatus('Error applying settings: ' + error.message, true);
             }
         }
 
-        // 应用所有图表设置
+        // Apply all plot settings
         function applySettings() {
             try {
-                // 应用标题和轴标签设置
+                // Apply title and axis settings
                 applyTitleAndAxisSettings();
                 
-                // 应用样式设置
+                // Apply style settings to selected dataset
                 applyStylesImmediately();
                 
-                showStatus('已应用所有设置');
+                showStatus('Applied all settings');
             } catch (error) {
-                console.error('应用设置错误:', error);
-                showStatus('应用设置错误: ' + error.message, true);
+                console.error('Error applying settings:', error);
+                showStatus('Error applying settings: ' + error.message, true);
             }
         }
         
-        // 重置缩放
+        // Reset zoom
         function resetZoom() {
             Plotly.relayout('plotContainer', {
                 'xaxis.autorange': true,
@@ -742,7 +938,7 @@
             });
         }
         
-        // 保存图表为PNG
+        // Save plot as PNG
         function saveAsPNG() {
             Plotly.downloadImage('plotContainer', {
                 format: 'png',
@@ -753,7 +949,7 @@
             });
         }
         
-        // 保存图表为SVG
+        // Save plot as SVG
         function saveAsSVG() {
             Plotly.downloadImage('plotContainer', {
                 format: 'svg',
@@ -763,110 +959,222 @@
             });
         }
         
-        // 实时应用样式设置
+        // Update dataset selector dropdown
+        function updateDatasetSelector() {
+            const selector = document.getElementById('datasetSelector');
+            selector.innerHTML = '';
+            
+            if (Object.keys(app.plotData).length === 0) {
+                const option = document.createElement('option');
+                option.value = '';
+                option.text = '-- No datasets plotted --';
+                selector.appendChild(option);
+                
+                // Disable the styling controls
+                document.getElementById('datasetLabel').disabled = true;
+                document.getElementById('lineWidth').disabled = true;
+                document.getElementById('lineStyle').disabled = true;
+                document.getElementById('markerSize').disabled = true;
+                document.getElementById('markerStyle').disabled = true;
+                document.getElementById('customColor').disabled = true;
+                document.getElementById('applyStylesBtn').disabled = true;
+                document.getElementById('removeDatasetBtn').disabled = true;
+                document.getElementById('autoApply').disabled = true;
+                
+                return;
+            }
+            
+            // Enable the styling controls
+            document.getElementById('datasetLabel').disabled = false;
+            document.getElementById('lineWidth').disabled = false;
+            document.getElementById('lineStyle').disabled = false;
+            document.getElementById('markerSize').disabled = false;
+            document.getElementById('markerStyle').disabled = false;
+            document.getElementById('customColor').disabled = false;
+            document.getElementById('applyStylesBtn').disabled = false;
+            document.getElementById('removeDatasetBtn').disabled = false;
+            document.getElementById('autoApply').disabled = false;
+            
+            // Add options for each dataset
+            for (const name in app.plotData) {
+                const option = document.createElement('option');
+                option.value = name;
+                option.text = `${name} (${app.plotData[name].columns.y} vs ${app.plotData[name].columns.x})`;
+                selector.appendChild(option);
+            }
+        }
+        
+        // Select a dataset for styling
+        function selectDataset(name) {
+            if (!app.plotData[name]) return;
+            
+            app.selectedDataset = name;
+            const dataset = app.plotData[name];
+            
+            // Set form values from dataset style
+            document.getElementById('datasetSelector').value = name;
+            document.getElementById('datasetLabel').value = dataset.trace.name;
+            document.getElementById('lineWidth').value = dataset.style.lineWidth;
+            document.getElementById('lineWidthValue').textContent = dataset.style.lineWidth;
+            document.getElementById('lineStyle').value = dataset.style.lineStyle;
+            document.getElementById('markerSize').value = dataset.style.markerSize;
+            document.getElementById('markerSizeValue').textContent = dataset.style.markerSize;
+            document.getElementById('markerStyle').value = dataset.style.markerStyle;
+            document.getElementById('currentColor').textContent = dataset.style.color;
+            document.getElementById('customColor').value = dataset.style.color;
+            
+            // Highlight the color in the selector if it matches a predefined color
+            document.querySelectorAll('#colorSelector .color-sample').forEach(sample => {
+                sample.classList.remove('active');
+                if (sample.getAttribute('data-color') === dataset.style.color) {
+                    sample.classList.add('active');
+                }
+            });
+        }
+        
+        // Apply style settings to the selected dataset
         function applyStylesImmediately() {
-            // 如果没有数据，不执行任何操作
-            if (!app.currentData || app.currentData.length === 0) return;
+            const selectedDataset = app.selectedDataset;
+            
+            // If no dataset is selected, don't do anything
+            if (!selectedDataset || !app.plotData[selectedDataset]) return;
             
             try {
-                // 获取当前选中的样式设置
+                // Get current style settings
                 const markerSize = parseInt(document.getElementById('markerSize').value);
                 const lineWidth = parseFloat(document.getElementById('lineWidth').value);
                 const lineStyle = document.getElementById('lineStyle').value;
                 const markerStyle = document.getElementById('markerStyle').value;
                 const currentColor = document.getElementById('currentColor').textContent;
+                const datasetLabel = document.getElementById('datasetLabel').value.trim() || app.plotData[selectedDataset].trace.name;
                 
-                // 更新数据样式
-                const updatedData = app.currentData.map(trace => {
-                    return {
-                        ...trace,
-                        line: {
-                            ...trace.line,
-                            color: currentColor,
-                            width: lineWidth,
-                            dash: lineStyle === 'solid' ? 'solid' : 
-                                  lineStyle === 'dash' ? 'dash' :
-                                  lineStyle === 'dot' ? 'dot' : 'dashdot'
-                        },
-                        marker: {
-                            ...trace.marker,
-                            color: currentColor,
-                            size: markerSize,
-                            symbol: markerStyle
-                        }
-                    };
-                });
+                // Update dataset style
+                app.plotData[selectedDataset].style = {
+                    color: currentColor,
+                    lineWidth: lineWidth,
+                    lineStyle: lineStyle,
+                    markerSize: markerSize,
+                    markerStyle: markerStyle
+                };
                 
-                // 更新图表
-                Plotly.restyle('plotContainer', {
-                    'line.color': [currentColor],
-                    'line.width': [lineWidth],
-                    'line.dash': [lineStyle === 'solid' ? 'solid' : 
-                                 lineStyle === 'dash' ? 'dash' :
-                                 lineStyle === 'dot' ? 'dot' : 'dashdot'],
-                    'marker.color': [currentColor],
-                    'marker.size': [markerSize],
-                    'marker.symbol': [markerStyle]
-                });
+                // Update trace properties
+                app.plotData[selectedDataset].trace.name = datasetLabel;
+                app.plotData[selectedDataset].trace.line = {
+                    color: currentColor,
+                    width: lineWidth,
+                    dash: lineStyle === 'solid' ? 'solid' : 
+                          lineStyle === 'dash' ? 'dash' :
+                          lineStyle === 'dot' ? 'dot' : 'dashdot'
+                };
+                app.plotData[selectedDataset].trace.marker = {
+                    color: currentColor,
+                    size: markerSize,
+                    symbol: markerStyle
+                };
                 
-                // 更新应用的数据
-                app.currentData = updatedData;
+                // Find the index of this trace in the active plot
+                const traceIndex = app.activePlot.findIndex(trace => 
+                    trace === app.plotData[selectedDataset].trace);
+                
+                if (traceIndex !== -1) {
+                    // Apply style update to the plot
+                    Plotly.restyle('plotContainer', {
+                        'name': datasetLabel,
+                        'line.color': currentColor,
+                        'line.width': lineWidth,
+                        'line.dash': lineStyle === 'solid' ? 'solid' : 
+                                    lineStyle === 'dash' ? 'dash' :
+                                    lineStyle === 'dot' ? 'dot' : 'dashdot',
+                        'marker.color': currentColor,
+                        'marker.size': markerSize,
+                        'marker.symbol': markerStyle
+                    }, [traceIndex]);
+                } else {
+                    // If we can't find the trace index, just update the whole plot
+                    updatePlot();
+                }
+                
+                // Update values display
+                document.getElementById('markerSizeValue').textContent = markerSize;
+                document.getElementById('lineWidthValue').textContent = lineWidth;
+                
+                showStatus(`Applied style to dataset: ${selectedDataset}`);
             } catch (error) {
-                console.error('实时样式更新错误:', error);
+                console.error('Style update error:', error);
+                showStatus('Error updating style: ' + error.message, true);
             }
         }
 
-        // 初始化页面
+        // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
-            // 初始化图表
+            // Initialize plot
             initPlot();
             
-            // 绑定事件
+            // Add style control listeners
+            addStyleControlListeners();
+            
+            // Bind events
             document.getElementById('loadDataBtn').addEventListener('click', loadData);
-            document.getElementById('applySettingsBtn').addEventListener('click', applySettings);
+            document.getElementById('applyStylesBtn').addEventListener('click', applyStylesImmediately);
+            document.getElementById('removeDatasetBtn').addEventListener('click', function() {
+                const selectedDataset = app.selectedDataset;
+                if (selectedDataset && confirm(`Are you sure you want to remove "${selectedDataset}" from the plot?`)) {
+                    removeDatasetFromPlot(selectedDataset);
+                }
+            });
+            
             document.getElementById('applyBasicSettingsBtn').addEventListener('click', function() {
-                // 应用标题、轴标签、图例和边框设置
+                // Apply title, axis labels, legend and border settings
                 applyTitleAndAxisSettings();
             });
             document.getElementById('resetZoomBtn').addEventListener('click', resetZoom);
             document.getElementById('saveAsPNGBtn').addEventListener('click', saveAsPNG);
             document.getElementById('saveAsSVGBtn').addEventListener('click', saveAsSVG);
             
-            // 颜色选择
+            // Dataset selector change
+            document.getElementById('datasetSelector').addEventListener('change', function() {
+                const selectedDataset = this.value;
+                if (selectedDataset) {
+                    selectDataset(selectedDataset);
+                }
+            });
+            
+            // Color selection
             document.querySelectorAll('#colorSelector .color-sample').forEach(sample => {
                 sample.addEventListener('click', function() {
-                    // 移除所有样本的活动状态
+                    // Remove active state from all samples
                     document.querySelectorAll('#colorSelector .color-sample').forEach(s => {
                         s.classList.remove('active');
                     });
                     
-                    // 添加当前样本的活动状态
+                    // Add active state to current sample
                     this.classList.add('active');
                     
                     const color = this.getAttribute('data-color');
                     document.getElementById('currentColor').textContent = color;
                     document.getElementById('customColor').value = color;
-                    applyStylesImmediately();
+                    
+                    if (document.getElementById('autoApply').checked) {
+                        applyStylesImmediately();
+                    }
                 });
             });
             
-            // 默认选中第一个颜色
+            // Default select first color
             document.querySelector('#colorSelector .color-sample').classList.add('active');
             
-            // 自定义颜色
-            document.getElementById('customColor').addEventListener('input', function() {
-                const color = this.value;
-                document.getElementById('currentColor').textContent = color;
-                applyStylesImmediately();
-            });
+            // Disable styling controls initially (until a dataset is selected)
+            document.getElementById('datasetLabel').disabled = true;
+            document.getElementById('lineWidth').disabled = true;
+            document.getElementById('lineStyle').disabled = true;
+            document.getElementById('markerSize').disabled = true;
+            document.getElementById('markerStyle').disabled = true;
+            document.getElementById('customColor').disabled = true;
+            document.getElementById('applyStylesBtn').disabled = true;
+            document.getElementById('removeDatasetBtn').disabled = true;
+            document.getElementById('autoApply').disabled = true;
             
-            // 实时样式更新
-            document.getElementById('markerSize').addEventListener('input', applyStylesImmediately);
-            document.getElementById('lineWidth').addEventListener('input', applyStylesImmediately);
-            document.getElementById('lineStyle').addEventListener('change', applyStylesImmediately);
-            document.getElementById('markerStyle').addEventListener('change', applyStylesImmediately);
-            
-            // 文件上传预览
+            // File upload preview
             document.getElementById('dataFile').addEventListener('change', function(e) {
                 const file = e.target.files[0];
                 if (!file) return;
@@ -876,9 +1184,32 @@
                     document.getElementById('dataPreview').value = 
                         event.target.result.substring(0, 500) + 
                         (event.target.result.length > 500 ? '...' : '');
+                    
+                    // Auto-check the appropriate delimiter based on file extension
+                    if (file.name.endsWith('.csv')) {
+                        document.getElementById('delimiterComma').checked = true;
+                    } else if (file.name.endsWith('.txt') || file.name.endsWith('.dat')) {
+                        // Check first few lines for tabs or spaces
+                        const content = event.target.result.substring(0, 500);
+                        if (content.indexOf('\t') !== -1) {
+                            document.getElementById('delimiterTab').checked = true;
+                        } else if (content.indexOf(' ') !== -1) {
+                            document.getElementById('delimiterSpace').checked = true;
+                        }
+                    }
                 };
                 reader.readAsText(file);
             });
+            
+            // Initialize value displays
+            document.getElementById('markerSizeValue').textContent = document.getElementById('markerSize').value;
+            document.getElementById('lineWidthValue').textContent = document.getElementById('lineWidth').value;
+            
+            // Initialize app data
+            app.plotData = {};
+            app.activePlot = [];
+            app.nextColorIndex = 0;
+            app.selectedDataset = null;
         });
     </script>
 </body>
